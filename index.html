@@ -30,7 +30,6 @@ section {
   margin-top: 50px;
 }
 
-/* Wheel */
 #wheel-container {
   position: relative;
   width: 380px;
@@ -134,11 +133,13 @@ section {
 <div id="result"></div>
 
 <div id="claim" style="display:none;">
-<p style="line-height:1.6; color:#cbd5f5;">
+<p style="font-size:16px; color:#cbd5f5; line-height:1.6;">
 🎉 <b>Congratulations!</b> যারা স্পিনে টাকা জিতেছেন 👇<br><br>
-📸 স্ক্রিনশট নিয়ে আমাকে মেসেঞ্জারে পাঠান<br>
-💸 বিকাশ নাম্বার দিন<br><br>
-✅ আমি যাচাই করে প্রাইজ পাঠিয়ে দিবো ❤️
+
+📸 স্পিনের একটি <b>স্ক্রিনশট</b> নিয়ে আমাকে মেসেঞ্জারে পাঠান<br>
+💸 সাথে আপনার <b>বিকাশ নাম্বার</b> লিখে দিন<br><br>
+
+✅ আমি যাচাই করে আপনার প্রাইজ পাঠিয়ে দিবো ইনশাআল্লাহ ❤️
 </p>
 
 <a href="https://m.me/MdHamim.Real" target="_blank">
@@ -149,17 +150,22 @@ section {
 </section>
 
 <script>
-const rewards = [
-  "50৳ 💸",
-  "40৳ 💸",
-  "30৳ 💸",
-  "20৳ 💸",
-  "Better Luck 😅"
+
+// 🎯 FINAL BUDGET SYSTEM (~290৳)
+let rewards = [
+  {name:"100৳ 💸", limit:1, weight:1},
+  {name:"50৳ 💸", limit:1, weight:2},
+  {name:"30৳ 💸", limit:2, weight:4},
+  {name:"20৳ 💸", limit:4, weight:6},
+  {name:"Better Luck 😅", limit:999, weight:3}
 ];
+
+// load saved limits
+let saved = JSON.parse(localStorage.getItem("limits"));
+if(saved) rewards = saved;
 
 let audio;
 
-// 🔊 init sound (fix)
 function initSound(){
   audio = new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3");
   audio.volume = 1;
@@ -167,7 +173,27 @@ function initSound(){
 
 function spin(){
 
-  let index = Math.floor(Math.random()*rewards.length);
+  // 🔐 one spin only
+  if(localStorage.getItem("spun")){
+    alert("❌ Already spun!");
+    return;
+  }
+
+  let pool = [];
+
+  rewards.forEach(r=>{
+    if(r.limit > 0){
+      for(let i=0;i<r.weight;i++){
+        pool.push(r);
+      }
+    }
+  });
+
+  let selected = pool[Math.floor(Math.random()*pool.length)];
+
+  selected.limit--;
+
+  let index = rewards.findIndex(r=>r.name===selected.name);
 
   let deg = 3600 + Math.random()*360 + (index*72);
 
@@ -176,10 +202,8 @@ function spin(){
 
   setTimeout(()=>{
 
-    let reward = rewards[index];
-
     document.getElementById("result").innerText =
-      "🎉 You got: " + reward;
+      "🎉 You got: " + selected.name;
 
     document.getElementById("claim").style.display = "block";
 
@@ -188,14 +212,25 @@ function spin(){
       audio.play();
     }
 
-    if(!reward.includes("Better")){
+    if(!selected.name.includes("Better")){
       confetti({
         particleCount: 120,
         spread: 80
       });
     }
 
+    localStorage.setItem("spun", true);
+    localStorage.setItem("limits", JSON.stringify(rewards));
+
+    document.getElementById("spinBtn").disabled = true;
+
   },4000);
+}
+
+window.onload = function(){
+  if(localStorage.getItem("spun")){
+    document.getElementById("spinBtn").disabled = true;
+  }
 }
 </script>
 
