@@ -25,7 +25,6 @@ body {
 
 h1 {
   color: #38bdf8;
-  margin-top: 10px;
 }
 
 .btn {
@@ -35,7 +34,6 @@ h1 {
   border: none;
   border-radius: 25px;
   margin-top: 10px;
-  cursor: pointer;
 }
 
 /* Section */
@@ -112,9 +110,7 @@ section {
 
 <!-- Profile -->
 <div class="profile">
-  <!-- 🔥 তোমার GitHub photo -->
   <img src="photo.jpg" alt="MD Hamim">
-
   <h1>MD Hamim</h1>
   <p>Developer | Ethical Hacker | Cyber Security Enthusiast</p>
   <button class="btn">Contact Me</button>
@@ -154,6 +150,34 @@ section {
 
 <div id="result"></div>
 
+<!-- 📩 Claim Section -->
+<div id="claim" style="display:none; margin-top:20px;">
+
+<p style="font-size:16px; color:#cbd5f5; line-height:1.6;">
+🎉 <b>Congratulations!</b> যারা স্পিনে টাকা জিতেছেন 👇<br><br>
+
+📸 স্পিনের একটি <b>স্ক্রিনশট</b> নিয়ে আমাকে মেসেঞ্জারে পাঠান<br>
+💸 সাথে আপনার <b>বিকাশ নাম্বার</b> লিখে দিন<br><br>
+
+✅ আমি যাচাই করে আপনার প্রাইজ পাঠিয়ে দিবো ইনশাআল্লাহ ❤️
+</p>
+
+<a href="https://m.me/MdHamim.Real" target="_blank">
+  <button style="
+    padding: 12px 25px;
+    background: #0084ff;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+  ">
+    💬 Message Me on Messenger
+  </button>
+</a>
+
+</div>
+
 </section>
 
 <script>
@@ -176,6 +200,8 @@ function spin() {
   setTimeout(() => {
     document.getElementById("result").innerText =
       "🎉 You got: " + rewards[index];
+
+    document.getElementById("claim").style.display = "block";
   }, 4000);
 }
 </script>
