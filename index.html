@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <title>MD Hamim</title>
 
+<!-- 🎉 Confetti -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 <style>
 body {
   margin: 0;
@@ -15,54 +18,42 @@ body {
 
 /* Profile */
 .profile img {
-  width: 140px;
-  height: 140px;
-  object-fit: cover;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   margin-top: 40px;
   border: 4px solid #38bdf8;
+  object-fit: cover;
 }
 
-h1 {
-  color: #38bdf8;
-}
+h1 { color: #38bdf8; }
 
-.btn {
-  padding: 12px 25px;
-  background: #38bdf8;
-  color: black;
-  border: none;
-  border-radius: 25px;
-  margin-top: 10px;
-}
-
-/* Section */
 section {
   margin-top: 50px;
   padding: 0 20px;
 }
 
-/* Spin */
+/* 🎡 BIG WHEEL */
 #wheel-container {
   position: relative;
-  width: 320px;
-  height: 320px;
-  margin: 20px auto;
+  width: 380px;
+  height: 380px;
+  margin: 30px auto;
 }
 
 #pointer {
   position: absolute;
-  top: -12px;
+  top: -15px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 28px;
+  font-size: 32px;
 }
 
 #wheel {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 6px solid white;
+  border: 10px solid white;
   background: conic-gradient(
     #ef4444 0deg 60deg,
     #f97316 60deg 120deg,
@@ -71,37 +62,50 @@ section {
     #3b82f6 240deg 300deg,
     #8b5cf6 300deg 360deg
   );
-  transition: transform 4s ease-out;
+  box-shadow: 0 0 30px rgba(0,0,0,0.5);
+  transition: transform 4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 #center {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 70px;
-  height: 70px;
+  width: 85px;
+  height: 85px;
   background: white;
   color: black;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  line-height: 70px;
+  line-height: 85px;
   font-weight: bold;
 }
 
+/* Button */
 #spinBtn {
-  margin-top: 20px;
-  padding: 12px 30px;
-  font-size: 16px;
+  padding: 14px 35px;
+  font-size: 18px;
   background: #22c55e;
-  color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
+  color: white;
   cursor: pointer;
 }
 
+/* Result */
 #result {
+  margin-top: 20px;
+  font-size: 22px;
+}
+
+/* Messenger */
+.msg-btn {
   margin-top: 15px;
-  font-size: 20px;
+  padding: 12px 25px;
+  background: #0084ff;
+  border-radius: 25px;
+  border: none;
+  color: white;
+  font-size: 16px;
 }
 </style>
 </head>
@@ -110,10 +114,9 @@ section {
 
 <!-- Profile -->
 <div class="profile">
-  <img src="photo.jpg" alt="MD Hamim">
+  <img src="photo.jpg">
   <h1>MD Hamim</h1>
   <p>Developer | Ethical Hacker | Cyber Security Enthusiast</p>
-  <button class="btn">Contact Me</button>
 </div>
 
 <!-- About -->
@@ -121,8 +124,7 @@ section {
   <h2>About Me</h2>
   <p>
     I am passionate about Programming and Cyber Security. Currently learning Linux,
-    Networking, Python and Web Development. My goal is to become a professional
-    Ethical Hacker and Security Specialist.
+    Networking, Python and Web Development.
   </p>
 </section>
 
@@ -130,14 +132,12 @@ section {
 <section>
 
 <h2 style="
-  margin-bottom: 25px;
   font-size: 28px;
-  font-weight: bold;
-  background: linear-gradient(90deg, #38bdf8, #22c55e);
+  background: linear-gradient(90deg,#38bdf8,#22c55e);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 ">
-  🎉 Eid Giveaway - Virtual Card & Crypto Buy/Sell Group 🎉
+🎉 Eid Giveaway - Virtual Card & Crypto Buy/Sell Group 🎉
 </h2>
 
 <div id="wheel-container">
@@ -150,37 +150,24 @@ section {
 
 <div id="result"></div>
 
-<!-- 📩 Claim Section -->
-<div id="claim" style="display:none; margin-top:20px;">
+<!-- 📩 Claim -->
+<div id="claim" style="display:none;">
 
-<p style="font-size:16px; color:#cbd5f5; line-height:1.6;">
+<p style="line-height:1.6; color:#cbd5f5;">
 🎉 <b>Congratulations!</b> যারা স্পিনে টাকা জিতেছেন 👇<br><br>
-
-📸 স্পিনের একটি <b>স্ক্রিনশট</b> নিয়ে আমাকে মেসেঞ্জারে পাঠান<br>
-💸 সাথে আপনার <b>বিকাশ নাম্বার</b> লিখে দিন<br><br>
-
-✅ আমি যাচাই করে আপনার প্রাইজ পাঠিয়ে দিবো ইনশাআল্লাহ ❤️
+📸 স্ক্রিনশট নিয়ে আমাকে মেসেঞ্জারে পাঠান<br>
+💸 বিকাশ নাম্বার দিন<br><br>
+✅ আমি যাচাই করে প্রাইজ পাঠিয়ে দিবো ❤️
 </p>
 
 <a href="https://m.me/MdHamim.Real" target="_blank">
-  <button style="
-    padding: 12px 25px;
-    background: #0084ff;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    font-size: 16px;
-    cursor: pointer;
-  ">
-    💬 Message Me on Messenger
-  </button>
+<button class="msg-btn">💬 Message Me</button>
 </a>
 
 </div>
 
 </section>
 
-<script>
 <script>
 const rewards = [
   "50৳ 💸",
@@ -191,55 +178,67 @@ const rewards = [
   "Better Luck 😅"
 ];
 
-// ⏰ Time সেট (24h format)
+// 🔊 sound
+let audio = new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3");
+
+// ⏰ Time limit
 const startHour = 10;
 const startMinute = 45;
-
 const endHour = 11;
 const endMinute = 0;
 
 function isWithinTime() {
   let now = new Date();
-  let currentMinutes = now.getHours() * 60 + now.getMinutes();
-
-  let start = startHour * 60 + startMinute;
-  let end = endHour * 60 + endMinute;
-
-  return currentMinutes >= start && currentMinutes <= end;
+  let current = now.getHours()*60 + now.getMinutes();
+  let start = startHour*60 + startMinute;
+  let end = endHour*60 + endMinute;
+  return current >= start && current <= end;
 }
 
 function spin() {
 
-  if (!isWithinTime()) {
-
+  if(!isWithinTime()){
     let now = new Date();
-    let current = now.getHours() * 60 + now.getMinutes();
-    let start = startHour * 60 + startMinute;
-    let end = endHour * 60 + endMinute;
+    let current = now.getHours()*60 + now.getMinutes();
+    let start = startHour*60 + startMinute;
 
-    if (current < start) {
-      alert("⏳ Giveaway এখনও শুরু হয়নি!");
+    if(current < start){
+      alert("⏳ Giveaway এখনো শুরু হয়নি!");
     } else {
-      alert("⌛ সময় শেষ! Giveaway বন্ধ হয়ে গেছে!");
+      alert("⌛ সময় শেষ!");
     }
-
     return;
   }
 
-  let index = Math.floor(Math.random() * rewards.length);
-  let deg = 3600 + (index * 60);
+  let index = Math.floor(Math.random()*rewards.length);
+
+  let extra = Math.floor(Math.random()*360);
+  let deg = 3600 + extra + (index * 60);
 
   document.getElementById("wheel").style.transform =
     "rotate(" + deg + "deg)";
 
-  setTimeout(() => {
+  setTimeout(()=>{
+
+    let reward = rewards[index];
+
     document.getElementById("result").innerText =
-      "🎉 You got: " + rewards[index];
+      "🎉 You got: " + reward;
 
     document.getElementById("claim").style.display = "block";
-  }, 4000);
+
+    audio.play();
+
+    if(!reward.includes("Better")){
+      confetti({
+        particleCount: 120,
+        spread: 80,
+        origin: { y: 0.6 }
+      });
+    }
+
+  },4000);
 }
-</script>
 </script>
 
 </body>
