@@ -2,44 +2,65 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Eid Spin Giveaway</title>
+<title>MD Hamim</title>
 
 <style>
 body {
-  text-align: center;
+  margin: 0;
   font-family: Arial;
   background: linear-gradient(135deg, #0f172a, #1e293b);
   color: white;
+  text-align: center;
+}
+
+/* Profile */
+.profile img {
+  width: 120px;
+  border-radius: 50%;
+  margin-top: 40px;
+  border: 3px solid #38bdf8;
 }
 
 h1 {
-  margin-top: 20px;
+  color: #38bdf8;
+}
+
+.btn {
+  padding: 12px 25px;
+  background: #38bdf8;
+  color: black;
+  border: none;
+  border-radius: 20px;
+  margin-top: 10px;
+}
+
+/* Section */
+section {
+  margin-top: 50px;
+  padding: 0 20px;
+}
+
+/* Spin */
+#wheel-container {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  margin: 20px auto;
+}
+
+#pointer {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 28px;
 }
 
-/* Wheel Container */
-#wheel-container {
-  position: relative;
-  width: 350px;
-  height: 350px;
-  margin: 30px auto;
-}
-
-/* Pointer */
-#pointer {
-  position: absolute;
-  top: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 30px;
-}
-
-/* Wheel */
 #wheel {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 8px solid white;
+  border: 6px solid white;
   background: conic-gradient(
     #ef4444 0deg 60deg,
     #f97316 60deg 120deg,
@@ -51,43 +72,70 @@ h1 {
   transition: transform 4s ease-out;
 }
 
-/* Center Circle */
 #center {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   background: white;
   color: black;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  line-height: 80px;
+  line-height: 70px;
   font-weight: bold;
 }
 
-/* Button */
-button {
-  padding: 15px 35px;
-  font-size: 18px;
+#spinBtn {
+  margin-top: 20px;
+  padding: 12px 30px;
+  font-size: 16px;
   background: #22c55e;
   color: white;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
-/* Result */
 #result {
-  margin-top: 20px;
-  font-size: 22px;
+  margin-top: 15px;
+  font-size: 20px;
 }
 </style>
 </head>
 
 <body>
 
-<h1>🎉 Eid Spin Giveaway 🎉</h1>
+<!-- Profile -->
+<div class="profile">
+  <img src="https://via.placeholder.com/120" alt="profile">
+  <h1>MD Hamim</h1>
+  <p>Developer | Ethical Hacker | Cyber Security Enthusiast</p>
+  <button class="btn">Contact Me</button>
+</div>
+
+<!-- About -->
+<section>
+  <h2>About Me</h2>
+  <p>
+    I am passionate about Programming and Cyber Security. Currently learning Linux,
+    Networking, Python and Web Development.
+  </p>
+</section>
+
+<!-- 🎡 Spin Section -->
+<section>
+
+<h2 style="
+  margin-bottom: 25px;
+  font-size: 28px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #38bdf8, #22c55e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+">
+  🎉 Eid Spin Giveaway 🎉
+</h2>
 
 <div id="wheel-container">
   <div id="pointer">🔻</div>
@@ -95,69 +143,34 @@ button {
   <div id="center">SPIN</div>
 </div>
 
-<button onclick="spin()" id="btn">SPIN NOW</button>
+<button onclick="spin()" id="spinBtn">SPIN NOW</button>
 
 <div id="result"></div>
 
-<script>
+</section>
 
-// 🎯 Budget Control
-let rewards = [
-  { name: "50৳ 💸", limit: 2 },
-  { name: "30৳ 💸", limit: 2 },
-  { name: "20৳ 💸", limit: 3 },
-  { name: "10৳ 💸", limit: 4 },
-  { name: "Better Luck 😅", limit: 999 }
+<script>
+const rewards = [
+  "50৳ 💸",
+  "30৳ 💸",
+  "20৳ 💸",
+  "10৳ 💸",
+  "Better Luck 😅",
+  "Better Luck 😅"
 ];
 
-// Load saved limits
-let saved = JSON.parse(localStorage.getItem("reward_limits"));
-if(saved) rewards = saved;
-
 function spin() {
-
-  if(localStorage.getItem("spun")) {
-    alert("Already spun!");
-    return;
-  }
-
-  let available = rewards.filter(r => r.limit > 0);
-
-  let selected;
-  let rand = Math.floor(Math.random() * available.length);
-  selected = available[rand];
-  selected.limit--;
-
-  let index = rewards.findIndex(r => r.name === selected.name);
-
+  let index = Math.floor(Math.random() * rewards.length);
   let deg = 3600 + (index * 60);
 
   document.getElementById("wheel").style.transform =
     "rotate(" + deg + "deg)";
 
   setTimeout(() => {
-
     document.getElementById("result").innerText =
-      "🎉 You got: " + selected.name;
-
-    localStorage.setItem("reward_limits", JSON.stringify(rewards));
-    localStorage.setItem("spun", true);
-    localStorage.setItem("reward", selected.name);
-
-    document.getElementById("btn").disabled = true;
-
+      "🎉 You got: " + rewards[index];
   }, 4000);
 }
-
-// Reload protection
-window.onload = function() {
-  if(localStorage.getItem("spun")) {
-    document.getElementById("btn").disabled = true;
-    document.getElementById("result").innerText =
-      "✅ Already got: " + localStorage.getItem("reward");
-  }
-}
-
 </script>
 
 </body>
