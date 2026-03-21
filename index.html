@@ -151,16 +151,15 @@ section {
 
 <script>
 
-// 🎯 FINAL BUDGET SYSTEM (~290৳)
+// 🎯 REWARD SYSTEM (~290৳)
 let rewards = [
   {name:"100৳ 💸", limit:1, weight:1},
   {name:"50৳ 💸", limit:1, weight:2},
   {name:"30৳ 💸", limit:2, weight:4},
   {name:"20৳ 💸", limit:4, weight:6},
-  {name:"Better Luck 😅", limit:999, weight:3}
+  {name:"Better Luck 😅", limit:999, weight:4}
 ];
 
-// load saved limits
 let saved = JSON.parse(localStorage.getItem("limits"));
 if(saved) rewards = saved;
 
@@ -168,21 +167,46 @@ let audio;
 
 function initSound(){
   audio = new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3");
-  audio.volume = 1;
+}
+
+// ⏰ TIME LIMIT
+function isWithinTime(){
+  let now = new Date();
+  let current = now.getHours()*60 + now.getMinutes();
+
+  let start = 10*60 + 40;
+  let end = 10*60 + 50;
+
+  return current >= start && current <= end;
 }
 
 function spin(){
 
-  // 🔐 one spin only
   if(localStorage.getItem("spun")){
-    alert("❌ Already spun!");
+    alert("❌ আপনি ইতিমধ্যে স্পিন করেছেন!");
+    return;
+  }
+
+  if(!isWithinTime()){
+    let now = new Date();
+    let current = now.getHours()*60 + now.getMinutes();
+
+    if(current < (10*60+40)){
+      alert("⏳ Giveaway এখনো শুরু হয়নি!");
+    } else {
+      alert("⌛ সময় শেষ!");
+    }
     return;
   }
 
   let pool = [];
 
   rewards.forEach(r=>{
-    if(r.limit > 0){
+    if(r.name === "Better Luck 😅"){
+      for(let i=0;i<r.weight;i++){
+        pool.push(r);
+      }
+    } else if(r.limit > 0){
       for(let i=0;i<r.weight;i++){
         pool.push(r);
       }
@@ -191,7 +215,9 @@ function spin(){
 
   let selected = pool[Math.floor(Math.random()*pool.length)];
 
-  selected.limit--;
+  if(selected.name !== "Better Luck 😅"){
+    selected.limit--;
+  }
 
   let index = rewards.findIndex(r=>r.name===selected.name);
 
@@ -221,6 +247,7 @@ function spin(){
 
     localStorage.setItem("spun", true);
     localStorage.setItem("limits", JSON.stringify(rewards));
+    localStorage.setItem("reward", selected.name);
 
     document.getElementById("spinBtn").disabled = true;
 
@@ -230,6 +257,9 @@ function spin(){
 window.onload = function(){
   if(localStorage.getItem("spun")){
     document.getElementById("spinBtn").disabled = true;
+    document.getElementById("result").innerText =
+      "✅ You already got: " + localStorage.getItem("reward");
+    document.getElementById("claim").style.display = "block";
   }
 }
 </script>
