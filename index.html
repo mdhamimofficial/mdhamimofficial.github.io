@@ -83,6 +83,7 @@ section {
   border: none;
   border-radius: 12px;
   color: white;
+  cursor: pointer;
 }
 
 #result {
@@ -97,6 +98,7 @@ section {
   border-radius: 25px;
   border: none;
   color: white;
+  font-size: 16px;
 }
 </style>
 </head>
@@ -127,7 +129,7 @@ section {
   <div id="center">SPIN</div>
 </div>
 
-<button onclick="spin()" id="spinBtn">SPIN NOW</button>
+<button onclick="initSound(); spin();" id="spinBtn">SPIN NOW</button>
 
 <div id="result"></div>
 
@@ -155,7 +157,13 @@ const rewards = [
   "Better Luck 😅"
 ];
 
-let audio = new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3");
+let audio;
+
+// 🔊 init sound (fix)
+function initSound(){
+  audio = new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3");
+  audio.volume = 1;
+}
 
 function spin(){
 
@@ -175,7 +183,10 @@ function spin(){
 
     document.getElementById("claim").style.display = "block";
 
-    audio.play();
+    if(audio){
+      audio.currentTime = 0;
+      audio.play();
+    }
 
     if(!reward.includes("Better")){
       confetti({
