@@ -5,36 +5,83 @@
 <title>Eid Spin Giveaway</title>
 
 <style>
-  body {
-    text-align: center;
-    font-family: Arial;
-    background: #0f172a;
-    color: white;
-  }
+body {
+  text-align: center;
+  font-family: Arial;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: white;
+}
 
-  #wheel {
-    margin: 30px auto;
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    border: 8px solid white;
-    transition: transform 4s ease-out;
-  }
+h1 {
+  margin-top: 20px;
+  font-size: 28px;
+}
 
-  button {
-    padding: 15px 30px;
-    font-size: 18px;
-    background: #22c55e;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-  }
+/* Wheel Container */
+#wheel-container {
+  position: relative;
+  width: 350px;
+  height: 350px;
+  margin: 30px auto;
+}
 
-  #result {
-    margin-top: 20px;
-    font-size: 22px;
-  }
+/* Pointer */
+#pointer {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 30px;
+}
+
+/* Wheel */
+#wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 8px solid white;
+  background: conic-gradient(
+    #ef4444 0deg 60deg,
+    #f97316 60deg 120deg,
+    #eab308 120deg 180deg,
+    #22c55e 180deg 240deg,
+    #3b82f6 240deg 300deg,
+    #8b5cf6 300deg 360deg
+  );
+  transition: transform 4s ease-out;
+}
+
+/* Center Circle */
+#center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  background: white;
+  color: black;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 80px;
+  font-weight: bold;
+}
+
+/* Button */
+button {
+  padding: 15px 35px;
+  font-size: 18px;
+  background: #22c55e;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+/* Result */
+#result {
+  margin-top: 20px;
+  font-size: 22px;
+}
 </style>
 </head>
 
@@ -42,71 +89,75 @@
 
 <h1>🎉 Eid Spin Giveaway 🎉</h1>
 
-<div id="wheel">🎡</div>
+<div id="wheel-container">
+  <div id="pointer">🔻</div>
+  <div id="wheel"></div>
+  <div id="center">SPIN</div>
+</div>
 
-<button id="spinBtn" onclick="spin()">SPIN</button>
+<button onclick="spin()" id="btn">SPIN NOW</button>
 
 <div id="result"></div>
 
 <script>
-  const rewards = [
-    "Better Luck 😅",
-    "10৳ 💸",
-    "20৳ 💸",
-    "Better Luck 😅",
-    "30৳ 💸",
-    "Better Luck 😅",
-    "40৳ 💸",
-    "50৳ 💸"
-  ];
 
-  // Unique device ID (simple fingerprint)
-  function getDeviceId() {
-    let id = localStorage.getItem("device_id");
-    if (!id) {
-      id = Math.random().toString(36).substring(2) + Date.now();
-      localStorage.setItem("device_id", id);
-    }
-    return id;
+// 🎯 Budget Control
+let rewards = [
+  { name: "50৳ 💸", limit: 2 },
+  { name: "30৳ 💸", limit: 2 },
+  { name: "20৳ 💸", limit: 3 },
+  { name: "10৳ 💸", limit: 4 },
+  { name: "Better Luck 😅", limit: 999 }
+];
+
+// Load saved limits
+let saved = JSON.parse(localStorage.getItem("reward_limits"));
+if(saved) rewards = saved;
+
+function spin() {
+
+  if(localStorage.getItem("spun")) {
+    alert("Already spun!");
+    return;
   }
 
-  function spin() {
+  let available = rewards.filter(r => r.limit > 0);
 
-    // Already spun check
-    if (localStorage.getItem("has_spun")) {
-      alert("❌ You already used your spin!");
-      return;
-    }
+  let selected;
+  let rand = Math.floor(Math.random() * available.length);
+  selected = available[rand];
+  selected.limit--;
 
-    let index = Math.floor(Math.random() * rewards.length);
-    let degree = 3600 + (index * 45);
+  let index = rewards.findIndex(r => r.name === selected.name);
 
-    document.getElementById("wheel").style.transform =
-      "rotate(" + degree + "deg)";
+  let deg = 3600 + (index * 60);
 
-    setTimeout(() => {
-      let reward = rewards[index];
+  document.getElementById("wheel").style.transform =
+    "rotate(" + deg + "deg)";
 
-      document.getElementById("result").innerText =
-        "🎉 You got: " + reward;
+  setTimeout(() => {
 
-      // Save spin permanently
-      localStorage.setItem("has_spun", true);
-      localStorage.setItem("reward", reward);
+    document.getElementById("result").innerText =
+      "🎉 You got: " + selected.name;
 
-      document.getElementById("spinBtn").disabled = true;
+    localStorage.setItem("reward_limits", JSON.stringify(rewards));
+    localStorage.setItem("spun", true);
+    localStorage.setItem("reward", selected.name);
 
-    }, 4000);
+    document.getElementById("btn").disabled = true;
+
+  }, 4000);
+}
+
+// Reload protection
+window.onload = function() {
+  if(localStorage.getItem("spun")) {
+    document.getElementById("btn").disabled = true;
+    document.getElementById("result").innerText =
+      "✅ Already got: " + localStorage.getItem("reward");
   }
+}
 
-  // Load previous result if already spun
-  window.onload = function () {
-    if (localStorage.getItem("has_spun")) {
-      document.getElementById("spinBtn").disabled = true;
-      document.getElementById("result").innerText =
-        "✅ Already got: " + localStorage.getItem("reward");
-    }
-  };
 </script>
 
 </body>
