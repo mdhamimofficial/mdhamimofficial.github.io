@@ -8,59 +8,91 @@
 
 <style>
 body {
-  margin:0;
-  font-family:Arial;
-  background:linear-gradient(135deg,#0f172a,#1e293b);
-  color:white;
-  text-align:center;
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: white;
+  text-align: center;
 }
 
 .profile img {
-  width:150px;
-  height:150px;
-  border-radius:50%;
-  margin-top:40px;
-  border:4px solid #38bdf8;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-top: 40px;
+  border: 4px solid #38bdf8;
 }
+
+h1 { color: #38bdf8; }
 
 #wheel-container {
-  width:380px;
-  height:380px;
-  margin:30px auto;
-  position:relative;
-}
-
-#wheel {
-  width:100%;
-  height:100%;
-  border-radius:50%;
-  border:10px solid white;
-  background:conic-gradient(#ef4444,#f97316,#eab308,#22c55e,#3b82f6,#8b5cf6);
-  transition:transform 4s ease-out;
+  position: relative;
+  width: 380px;
+  height: 380px;
+  margin: 30px auto;
 }
 
 #pointer {
-  position:absolute;
-  top:-15px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:32px;
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 32px;
 }
 
-button {
-  padding:14px 35px;
-  font-size:18px;
-  background:#22c55e;
-  border:none;
-  border-radius:12px;
-  color:white;
+#wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 10px solid white;
+  background: conic-gradient(
+    #ef4444 0deg 60deg,
+    #f97316 60deg 120deg,
+    #eab308 120deg 180deg,
+    #22c55e 180deg 240deg,
+    #3b82f6 240deg 300deg,
+    #8b5cf6 300deg 360deg
+  );
+  box-shadow: 0 0 30px rgba(0,0,0,0.5);
+  transition: transform 4s cubic-bezier(0.25,1,0.5,1);
+}
+
+#center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 85px;
+  height: 85px;
+  background: white;
+  color: black;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 85px;
+  font-weight: bold;
+}
+
+#spinBtn {
+  padding: 14px 35px;
+  font-size: 18px;
+  background: #22c55e;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+}
+
+#result {
+  margin-top: 20px;
+  font-size: 22px;
 }
 
 .msg-btn {
-  margin-top:15px;
-  padding:12px 25px;
-  background:#0084ff;
-  border-radius:25px;
+  margin-top: 15px;
+  padding: 12px 25px;
+  background: #0084ff;
+  border-radius: 25px;
+  border: none;
+  color: white;
 }
 </style>
 </head>
@@ -68,41 +100,55 @@ button {
 <body>
 
 <div class="profile">
-<img src="photo.jpg">
-<h1>MD Hamim</h1>
-<p>Cyber Security Enthusiast</p>
+  <img src="photo.jpg">
+  <h1>MD Hamim</h1>
+  <p>Developer | Ethical Hacker | Cyber Security Enthusiast</p>
 </div>
 
-<h2>🎉 Eid Giveaway 🎉</h2>
+<h2 style="background:linear-gradient(90deg,#38bdf8,#22c55e);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
+🎉 Eid Giveaway 🎉
+</h2>
 
 <div id="wheel-container">
-<div id="pointer">🔻</div>
-<div id="wheel"></div>
+  <div id="pointer">🔻</div>
+  <div id="wheel"></div>
+  <div id="center">SPIN</div>
 </div>
 
-<button onclick="initSound(); spin();" id="spinBtn">SPIN</button>
+<button onclick="initSound(); spin();" id="spinBtn">SPIN NOW</button>
 
 <div id="result"></div>
 
-<div id="claim" style="display:none;">
-<p>📸 Screenshot + Bkash number messenger এ পাঠান</p>
+<!-- ✅ YOUR TEXT -->
+<div id="claim" style="display:none; margin-top:20px;">
+
+<p style="font-size:16px; color:#cbd5f5; line-height:1.6;">
+🎉 <b>Congratulations!</b> যারা স্পিনে টাকা জিতেছেন 👇<br><br>
+
+📸 স্পিনের একটি <b>স্ক্রিনশট</b> নিয়ে আমাকে মেসেঞ্জারে পাঠান<br>
+💸 সাথে আপনার <b>বিকাশ নাম্বার</b> লিখে দিন<br><br>
+
+✅ আমি যাচাই করে আপনার প্রাইজ পাঠিয়ে দিবো ইনশাআল্লাহ ❤️
+</p>
+
 <a href="https://m.me/MdHamim.Real" target="_blank">
 <button class="msg-btn">💬 Message Me</button>
 </a>
+
 </div>
 
 <script>
 
-// 🎯 FINAL PERFECT SYSTEM
+// 🎯 FINAL LOGIC
 let rewards = [
-  {name:"50৳ 💸", limit:1, weight:1},   // jackpot
+  {name:"50৳ 💸", limit:1, weight:1},
   {name:"40৳ 💸", limit:2, weight:3},
   {name:"30৳ 💸", limit:3, weight:4},
   {name:"20৳ 💸", limit:4, weight:6},
   {name:"Better Luck 😅", limit:999, weight:3}
 ];
 
-// load saved
 let saved = JSON.parse(localStorage.getItem("limits"));
 if(saved) rewards = saved;
 
@@ -143,14 +189,20 @@ function spin(){
   setTimeout(()=>{
 
     document.getElementById("result").innerText =
-      "🎉 You got: "+selected.name;
+      "🎉 You got: " + selected.name;
 
     document.getElementById("claim").style.display="block";
 
-    if(audio){audio.play();}
+    if(audio){
+      audio.currentTime = 0;
+      audio.play();
+    }
 
     if(!selected.name.includes("Better")){
-      confetti({particleCount:120,spread:80});
+      confetti({
+        particleCount:120,
+        spread:80
+      });
     }
 
     localStorage.setItem("spun",true);
