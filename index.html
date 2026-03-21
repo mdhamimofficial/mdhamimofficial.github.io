@@ -2,292 +2,112 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MD Hamim | Developer & Ethical Hacker</title>
+<title>Eid Spin Giveaway</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial, sans-serif;
-scroll-behavior:smooth;
-}
+  body {
+    text-align: center;
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+  }
 
-body{
-background:#0f172a;
-color:white;
-}
+  #wheel {
+    margin: 30px auto;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 8px solid white;
+    transition: transform 4s ease-out;
+  }
 
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 8%;
-background:#0b1220;
-position:sticky;
-top:0;
-z-index:1000;
-}
+  button {
+    padding: 15px 30px;
+    font-size: 18px;
+    background: #22c55e;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
 
-header h2{
-color:#38bdf8;
-}
-
-nav a{
-color:white;
-text-decoration:none;
-margin-left:20px;
-font-size:14px;
-}
-
-nav a:hover{
-color:#38bdf8;
-}
-
-section{
-padding:80px 8%;
-text-align:center;
-}
-
-.hero img{
-width:160px;
-height:160px;
-border-radius:50%;
-border:4px solid #38bdf8;
-margin-bottom:20px;
-object-fit:cover;
-}
-
-.hero h1{
-font-size:42px;
-color:#38bdf8;
-}
-
-.hero p{
-margin-top:10px;
-font-size:18px;
-color:#cbd5e1;
-}
-
-.btn{
-display:inline-block;
-margin-top:20px;
-padding:12px 30px;
-background:#38bdf8;
-color:black;
-border-radius:30px;
-text-decoration:none;
-font-weight:bold;
-transition:0.3s;
-}
-
-.btn:hover{
-background:white;
-}
-
-h2{
-color:#38bdf8;
-margin-bottom:25px;
-}
-
-.about p{
-max-width:700px;
-margin:auto;
-line-height:1.6;
-color:#cbd5e1;
-}
-
-.skills-container{
-max-width:600px;
-margin:auto;
-text-align:left;
-}
-
-.skill{
-margin-bottom:20px;
-}
-
-.skill-name{
-margin-bottom:5px;
-}
-
-.progress{
-background:#1e293b;
-border-radius:20px;
-overflow:hidden;
-}
-
-.progress-bar{
-height:10px;
-background:#38bdf8;
-}
-
-.services, .projects{
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:20px;
-}
-
-.card{
-background:#1e293b;
-padding:20px;
-border-radius:10px;
-width:250px;
-}
-
-.card h3{
-color:#38bdf8;
-margin-bottom:10px;
-}
-
-.contact p{
-margin-bottom:15px;
-}
-
-.social a{
-display:inline-block;
-margin:10px;
-padding:10px 20px;
-background:#1e293b;
-border-radius:20px;
-color:#38bdf8;
-text-decoration:none;
-transition:0.3s;
-}
-
-.social a:hover{
-background:#38bdf8;
-color:black;
-}
-
-footer{
-background:#0b1220;
-text-align:center;
-padding:20px;
-color:#94a3b8;
-margin-top:40px;
-}
-
-@media(max-width:768px){
-.services, .projects{
-flex-direction:column;
-align-items:center;
-}
-}
+  #result {
+    margin-top: 20px;
+    font-size: 22px;
+  }
 </style>
 </head>
 
 <body>
 
-<header>
-<h2>MD Hamim</h2>
-<nav>
-<a href="#about">About</a>
-<a href="#skills">Skills</a>
-<a href="#services">Services</a>
-<a href="#projects">Projects</a>
-<a href="#contact">Contact</a>
-</nav>
-</header>
+<h1>🎉 Eid Spin Giveaway 🎉</h1>
 
-<section class="hero">
-<img src="photo.jpg" alt="MD Hamim">
-<h1>MD Hamim</h1>
-<p>Developer | Ethical Hacker | Cyber Security Enthusiast</p>
-<a href="mailto:mdhamim.dev@gmail.com?subject=Work Inquiry" class="btn">Contact Me</a>
-</section>
+<div id="wheel">🎡</div>
 
-<section id="about" class="about">
-<h2>About Me</h2>
-<p>
-I am passionate about Programming and Cyber Security.
-Currently learning Linux, Networking, Python and Web Development.
-My goal is to become a professional Ethical Hacker and Security Specialist.
-</p>
-</section>
+<button id="spinBtn" onclick="spin()">SPIN</button>
 
-<section id="skills">
-<h2>Skills</h2>
-<div class="skills-container">
+<div id="result"></div>
 
-<div class="skill">
-<div class="skill-name">HTML & CSS</div>
-<div class="progress"><div class="progress-bar" style="width:80%"></div></div>
-</div>
+<script>
+  const rewards = [
+    "Better Luck 😅",
+    "10৳ 💸",
+    "20৳ 💸",
+    "Better Luck 😅",
+    "30৳ 💸",
+    "Better Luck 😅",
+    "40৳ 💸",
+    "50৳ 💸"
+  ];
 
-<div class="skill">
-<div class="skill-name">Python</div>
-<div class="progress"><div class="progress-bar" style="width:70%"></div></div>
-</div>
+  // Unique device ID (simple fingerprint)
+  function getDeviceId() {
+    let id = localStorage.getItem("device_id");
+    if (!id) {
+      id = Math.random().toString(36).substring(2) + Date.now();
+      localStorage.setItem("device_id", id);
+    }
+    return id;
+  }
 
-<div class="skill">
-<div class="skill-name">Linux</div>
-<div class="progress"><div class="progress-bar" style="width:65%"></div></div>
-</div>
+  function spin() {
 
-<div class="skill">
-<div class="skill-name">Networking</div>
-<div class="progress"><div class="progress-bar" style="width:60%"></div></div>
-</div>
+    // Already spun check
+    if (localStorage.getItem("has_spun")) {
+      alert("❌ You already used your spin!");
+      return;
+    }
 
-</div>
-</section>
+    let index = Math.floor(Math.random() * rewards.length);
+    let degree = 3600 + (index * 45);
 
-<section id="services">
-<h2>Services</h2>
-<div class="services">
-<div class="card">
-<h3>Web Development</h3>
-<p>Modern and responsive websites using HTML & CSS.</p>
-</div>
+    document.getElementById("wheel").style.transform =
+      "rotate(" + degree + "deg)";
 
-<div class="card">
-<h3>Cyber Security Help</h3>
-<p>Basic security guidance and ethical hacking learning support.</p>
-</div>
+    setTimeout(() => {
+      let reward = rewards[index];
 
-<div class="card">
-<h3>Python Projects</h3>
-<p>Beginner friendly Python automation scripts.</p>
-</div>
-</div>
-</section>
+      document.getElementById("result").innerText =
+        "🎉 You got: " + reward;
 
-<section id="projects">
-<h2>Projects</h2>
-<div class="projects">
-<div class="card">
-<h3>Portfolio Website</h3>
-<p>This professional portfolio website hosted on GitHub.</p>
-</div>
+      // Save spin permanently
+      localStorage.setItem("has_spun", true);
+      localStorage.setItem("reward", reward);
 
-<div class="card">
-<h3>Linux Practice Lab</h3>
-<p>Hands-on Linux command practice and scripting.</p>
-</div>
-</div>
-</section>
+      document.getElementById("spinBtn").disabled = true;
 
-<section id="contact" class="contact">
-<h2>Contact Me</h2>
-<p>Email: mdhamim.dev@gmail.com</p>
-<a href="mailto:mdhamim.dev@gmail.com" class="btn">Send Email</a>
+    }, 4000);
+  }
 
-<div class="social">
-<a href="https://github.com/mdhamim-official" target="_blank">GitHub</a>
-<a href="https://www.freecodecamp.org/mdhamim" target="_blank">FreeCodeCamp</a>
-<a href="https://www.linkedin.com/in/mdhamimofficial" target="_blank">LinkedIn</a>
-<a href="https://x.com/MdHamimOfficial" target="_blank">X</a>
-<a href="https://www.facebook.com/Muhammadhamim.Official" target="_blank">Facebook</a>
-</div>
-
-</section>
-
-<footer>
-© 2026 MD Hamim | All Rights Reserved
-</footer>
+  // Load previous result if already spun
+  window.onload = function () {
+    if (localStorage.getItem("has_spun")) {
+      document.getElementById("spinBtn").disabled = true;
+      document.getElementById("result").innerText =
+        "✅ Already got: " + localStorage.getItem("reward");
+    }
+  };
+</script>
 
 </body>
 </html>
