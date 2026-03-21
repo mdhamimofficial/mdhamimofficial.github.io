@@ -8,59 +8,97 @@
 
 <style>
 body {
-  margin:0;
-  font-family:Arial;
-  background:linear-gradient(135deg,#0f172a,#1e293b);
-  color:white;
-  text-align:center;
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: white;
+  text-align: center;
 }
 
 .profile img {
-  width:150px;
-  height:150px;
-  border-radius:50%;
-  margin-top:40px;
-  border:4px solid #38bdf8;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-top: 40px;
+  border: 4px solid #38bdf8;
+  object-fit: cover;
 }
 
+h1 { color: #38bdf8; }
+
+section {
+  margin-top: 50px;
+}
+
+/* Wheel */
 #wheel-container {
-  width:380px;
-  height:380px;
-  margin:30px auto;
-  position:relative;
-}
-
-#wheel {
-  width:100%;
-  height:100%;
-  border-radius:50%;
-  border:10px solid white;
-  background:conic-gradient(#ef4444,#f97316,#eab308,#22c55e,#3b82f6,#8b5cf6);
-  transition:transform 4s ease-out;
+  position: relative;
+  width: 380px;
+  height: 380px;
+  margin: 30px auto;
 }
 
 #pointer {
-  position:absolute;
-  top:-15px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:32px;
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 32px;
 }
 
-button {
-  padding:14px 35px;
-  font-size:18px;
-  background:#22c55e;
-  border:none;
-  border-radius:12px;
-  color:white;
+#wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 10px solid white;
+  background: conic-gradient(
+    #ef4444 0deg 60deg,
+    #f97316 60deg 120deg,
+    #eab308 120deg 180deg,
+    #22c55e 180deg 240deg,
+    #3b82f6 240deg 300deg,
+    #8b5cf6 300deg 360deg
+  );
+  transition: transform 4s cubic-bezier(0.25,1,0.5,1);
+}
+
+#center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 85px;
+  height: 85px;
+  background: white;
+  color: black;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 85px;
+  font-weight: bold;
+}
+
+#spinBtn {
+  padding: 14px 35px;
+  font-size: 18px;
+  background: #22c55e;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+}
+
+#result {
+  margin-top: 20px;
+  font-size: 22px;
 }
 
 .msg-btn {
-  margin-top:15px;
-  padding:12px 25px;
-  background:#0084ff;
-  border-radius:25px;
+  margin-top: 15px;
+  padding: 12px 25px;
+  background: #0084ff;
+  border-radius: 25px;
+  border: none;
+  color: white;
+  font-size: 16px;
 }
 </style>
 </head>
@@ -68,103 +106,96 @@ button {
 <body>
 
 <div class="profile">
-<img src="photo.jpg">
-<h1>MD Hamim</h1>
-<p>Cyber Security Enthusiast</p>
+  <img src="photo.jpg">
+  <h1>MD Hamim</h1>
+  <p>Developer | Ethical Hacker | Cyber Security Enthusiast</p>
 </div>
 
-<h2>🎉 Eid Giveaway 🎉</h2>
+<section>
+<h2>About Me</h2>
+<p>Cyber Security & Programming Enthusiast</p>
+</section>
+
+<section>
+
+<h2 style="background:linear-gradient(90deg,#38bdf8,#22c55e);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
+🎉 Eid Giveaway - Virtual Card & Crypto Buy/Sell Group 🎉
+</h2>
 
 <div id="wheel-container">
-<div id="pointer">🔻</div>
-<div id="wheel"></div>
+  <div id="pointer">🔻</div>
+  <div id="wheel"></div>
+  <div id="center">SPIN</div>
 </div>
 
-<button onclick="initSound(); spin();" id="spinBtn">SPIN</button>
+<button onclick="initSound(); spin();" id="spinBtn">SPIN NOW</button>
 
 <div id="result"></div>
 
 <div id="claim" style="display:none;">
-<p>📸 Screenshot + Bkash number messenger এ পাঠান</p>
+<p style="line-height:1.6; color:#cbd5f5;">
+🎉 <b>Congratulations!</b> যারা স্পিনে টাকা জিতেছেন 👇<br><br>
+📸 স্ক্রিনশট নিয়ে আমাকে মেসেঞ্জারে পাঠান<br>
+💸 বিকাশ নাম্বার দিন<br><br>
+✅ আমি যাচাই করে প্রাইজ পাঠিয়ে দিবো ❤️
+</p>
+
 <a href="https://m.me/MdHamim.Real" target="_blank">
 <button class="msg-btn">💬 Message Me</button>
 </a>
 </div>
 
+</section>
+
 <script>
-
-// 🎯 FINAL PERFECT SYSTEM
-let rewards = [
-  {name:"50৳ 💸", limit:1, weight:1},   // jackpot
-  {name:"40৳ 💸", limit:2, weight:3},
-  {name:"30৳ 💸", limit:3, weight:4},
-  {name:"20৳ 💸", limit:4, weight:6},
-  {name:"Better Luck 😅", limit:999, weight:3}
+const rewards = [
+  "50৳ 💸",
+  "40৳ 💸",
+  "30৳ 💸",
+  "20৳ 💸",
+  "Better Luck 😅"
 ];
-
-// load saved
-let saved = JSON.parse(localStorage.getItem("limits"));
-if(saved) rewards = saved;
 
 let audio;
 
+// 🔊 init sound (fix)
 function initSound(){
   audio = new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3");
+  audio.volume = 1;
 }
 
 function spin(){
 
-  if(localStorage.getItem("spun")){
-    alert("❌ Already spun!");
-    return;
-  }
+  let index = Math.floor(Math.random()*rewards.length);
 
-  let pool = [];
-
-  rewards.forEach(r=>{
-    if(r.limit>0){
-      for(let i=0;i<r.weight;i++){
-        pool.push(r);
-      }
-    }
-  });
-
-  let selected = pool[Math.floor(Math.random()*pool.length)];
-
-  selected.limit--;
-
-  let index = rewards.findIndex(r=>r.name===selected.name);
-
-  let deg = 3600 + Math.random()*360 + index*72;
+  let deg = 3600 + Math.random()*360 + (index*72);
 
   document.getElementById("wheel").style.transform =
-    "rotate("+deg+"deg)";
+    "rotate(" + deg + "deg)";
 
   setTimeout(()=>{
 
+    let reward = rewards[index];
+
     document.getElementById("result").innerText =
-      "🎉 You got: "+selected.name;
+      "🎉 You got: " + reward;
 
-    document.getElementById("claim").style.display="block";
+    document.getElementById("claim").style.display = "block";
 
-    if(audio){audio.play();}
-
-    if(!selected.name.includes("Better")){
-      confetti({particleCount:120,spread:80});
+    if(audio){
+      audio.currentTime = 0;
+      audio.play();
     }
 
-    localStorage.setItem("spun",true);
-    localStorage.setItem("limits",JSON.stringify(rewards));
-
-    document.getElementById("spinBtn").disabled=true;
+    if(!reward.includes("Better")){
+      confetti({
+        particleCount: 120,
+        spread: 80
+      });
+    }
 
   },4000);
-}
-
-window.onload=function(){
-  if(localStorage.getItem("spun")){
-    document.getElementById("spinBtn").disabled=true;
-  }
 }
 </script>
 
